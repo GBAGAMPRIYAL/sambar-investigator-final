@@ -4,20 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sambar Investigator: The Campus Case File</title>
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Syncopate:wght@700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg-deep: #05070c;
-            --bg-panel: rgba(13, 20, 35, 0.65);
-            --border-glass: rgba(255, 255, 255, 0.08);
+            --bg-deep: #030407;
+            --bg-panel: rgba(10, 14, 23, 0.75);
+            --border-glass: rgba(255, 255, 255, 0.05);
             --sambar-gold: #f39c12;
             --sambar-glow: #e67e22;
-            --evidence-red: #c0392b;
+            --evidence-red: #e50914; /* Netflix Signature Red */
             --text-bright: #ffffff;
-            --text-muted: #a0aec0;
+            --text-muted: #9ca3af;
         }
 
         * {
@@ -38,21 +39,29 @@
             overflow-x: hidden;
         }
 
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            box-shadow: inset 0 0 100px rgba(0,0,0,0.85);
+            pointer-events: none;
+            z-index: 9999;
+        }
+
         h1, h2, h3, .syncopate {
             font-family: 'Syncopate', sans-serif;
             font-weight: 700;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
         }
 
         .typewriter-font {
             font-family: 'Special Elite', cursive;
         }
 
-        /* CUSTOM DETECTIVE CURSOR */
         #custom-cursor {
             width: 20px;
             height: 20px;
-            border: 2px solid var(--sambar-gold);
+            border: 2px solid var(--evidence-red);
             border-radius: 50%;
             position: fixed;
             transform: translate(-50%, -50%);
@@ -72,7 +81,6 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: opacity 0.8s ease, visibility 0.8s;
         }
 
         .loader-status {
@@ -95,33 +103,31 @@
         .loader-bar-fill {
             height: 100%;
             width: 0%;
-            background: var(--sambar-gold);
-            box-shadow: 0 0 10px var(--sambar-glow);
+            background: var(--evidence-red);
+            box-shadow: 0 0 10px var(--evidence-red);
             transition: width 0.1s linear;
         }
 
         .loader-logs {
             font-size: 0.75rem;
-            color: #4a5568;
+            color: #4b5563;
             font-family: monospace;
-            height: 20px;
         }
 
-        /* GLASSMORPHISM UTILITY */
+        /* GLASSMORPHISM NETFLIX CARDS */
         .glass-card {
             background: var(--bg-panel);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--border-glass);
-            border-radius: 8px;
-            padding: 30px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            border-radius: 6px;
+            padding: 35px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7);
         }
 
-        /* GLOBAL SECTIONS LAYOUT */
         section {
             min-height: 100vh;
-            padding: 80px 10%;
+            padding: 100px 10%;
             position: relative;
             display: flex;
             flex-direction: column;
@@ -129,18 +135,17 @@
         }
 
         .section-title-area {
-            margin-bottom: 50px;
+            margin-bottom: 60px;
         }
 
         .section-title-area h2 {
-            font-size: 2rem;
+            font-size: 1.6rem;
             color: var(--text-bright);
             border-left: 4px solid var(--evidence-red);
             padding-left: 15px;
-            display: inline-block;
+            text-shadow: 0 0 15px rgba(229, 9, 20, 0.2);
         }
 
-        /* RED EVIDENCE STRINGS GLOBAL CANVAS */
         #evidence-canvas {
             position: absolute;
             top: 0; left: 0;
@@ -153,7 +158,7 @@
         #hero {
             padding: 0;
             overflow: hidden;
-            background: radial-gradient(circle at 50% 50%, #0c101b 0%, var(--bg-deep) 100%);
+            background: radial-gradient(circle at 50% 50%, #0d111a 0%, var(--bg-deep) 100%);
         }
 
         #rain-canvas {
@@ -161,7 +166,7 @@
             top: 0; left: 0;
             width: 100%; height: 100%;
             pointer-events: none;
-            opacity: 0.4;
+            opacity: 0.25;
         }
 
         .hero-content {
@@ -172,54 +177,52 @@
         }
 
         .hero-content h1 {
-            font-size: 4.5rem;
+            font-size: 5rem;
             color: var(--text-bright);
-            text-shadow: 0 0 20px rgba(243, 156, 18, 0.4);
+            text-shadow: 0 0 30px rgba(0,0,0,0.5);
             margin-bottom: 15px;
+            letter-spacing: 6px;
         }
 
         .hero-content p {
             font-family: 'Special Elite', cursive;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             color: var(--sambar-gold);
-            margin-bottom: 40px;
-            letter-spacing: 1px;
+            margin-bottom: 45px;
+            letter-spacing: 2px;
         }
 
         .cta-btn {
-            background: transparent;
-            border: 2px solid var(--evidence-red);
+            background: var(--evidence-red);
+            border: none;
             color: var(--text-bright);
             font-family: 'Syncopate', sans-serif;
-            font-size: 1rem;
-            padding: 16px 36px;
+            font-size: 0.95rem;
+            padding: 18px 40px;
             cursor: pointer;
             border-radius: 4px;
-            box-shadow: 0 0 15px rgba(192, 57, 43, 0.3);
+            box-shadow: 0 4px 20px rgba(229, 9, 20, 0.4);
             transition: all 0.3s ease;
         }
 
         .cta-btn:hover {
-            background: var(--evidence-red);
-            box-shadow: 0 0 30px var(--evidence-red);
-            transform: translateY(-2px);
+            transform: scale(1.05);
+            box-shadow: 0 0 35px var(--evidence-red);
         }
 
-        /* SECTION 2: CASE BRIEFING */
+        /* SECTION 2: BRIEFING */
         .dossier-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 40px;
-            position: relative;
-            z-index: 5;
         }
 
         .dossier-meta-row {
             display: flex;
             justify-content: space-between;
-            border-bottom: 1px dashed rgba(255,255,255,0.1);
-            padding: 12px 0;
-            font-size: 1.1rem;
+            border-bottom: 1px dashed rgba(255,255,255,0.06);
+            padding: 15px 0;
+            font-size: 1.05rem;
         }
 
         .dossier-meta-row span:first-child {
@@ -229,7 +232,6 @@
 
         .dossier-meta-row span:last-child {
             color: var(--text-bright);
-            font-weight: 600;
         }
 
         .stamp-container {
@@ -241,35 +243,31 @@
 
         .stamp {
             font-family: 'Special Elite', cursive;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             padding: 8px 16px;
-            border: 3px double;
+            border: 2px solid;
             border-radius: 4px;
-            transform: rotate(-5deg);
             font-weight: bold;
-            opacity: 0.85;
         }
+        .stamp.confidential { color: var(--evidence-red); border-color: var(--evidence-red); transform: rotate(-6deg); }
+        .stamp.top-secret { color: var(--sambar-gold); border-color: var(--sambar-gold); transform: rotate(3deg); }
+        .stamp.investigation { color: #2563eb; border-color: #2563eb; transform: rotate(-2deg); }
 
-        .stamp.confidential { color: var(--evidence-red); border-color: var(--evidence-red); transform: rotate(-8deg); }
-        .stamp.top-secret { color: var(--sambar-gold); border-color: var(--sambar-gold); transform: rotate(4deg); }
-        .stamp.investigation { color: #3498db; border-color: #3498db; transform: rotate(-3deg); }
-
-        /* SECTION 3 & 5: DETECTIVE & EVIDENCE MEDIA TEMPLATE */
+        /* MULTIMEDIA INTERFACES */
         .media-showcase-grid {
             display: grid;
-            grid-template-columns: 450px 1fr;
+            grid-template-columns: 430px 1fr;
             gap: 50px;
             align-items: center;
-            z-index: 5;
         }
 
         .poster-frame {
             position: relative;
-            border: 4px solid #111827;
-            border-radius: 6px;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 4px;
             overflow: hidden;
-            box-shadow: 0 30px 6px rgba(0,0,0,0.8);
-            transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.5s;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.9);
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s;
         }
 
         .poster-frame img {
@@ -279,56 +277,51 @@
         }
 
         .audio-control-panel {
-            margin-top: 25px;
+            margin-top: 20px;
         }
 
         .audio-trigger-btn {
-            background: rgba(255,255,255,0.03);
+            background: rgba(255,255,255,0.02);
             border: 1px solid var(--sambar-gold);
             color: var(--sambar-gold);
             font-family: 'Syncopate', sans-serif;
             width: 100%;
-            padding: 15px;
+            padding: 16px;
             cursor: pointer;
             border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
             font-weight: bold;
             transition: all 0.3s;
         }
 
         .audio-trigger-btn:hover {
-            background: rgba(243, 156, 18, 0.1);
-            box-shadow: 0 0 20px rgba(243, 156, 18, 0.2);
+            background: rgba(243, 156, 18, 0.08);
         }
 
         .audio-trigger-btn.active-playing {
             background: var(--sambar-gold);
             color: var(--bg-deep);
-            box-shadow: 0 0 25px var(--sambar-gold);
+            box-shadow: 0 0 30px var(--sambar-gold);
+            border-color: var(--sambar-gold);
         }
 
-        /* SECTION 4: WITNESS MATRIX */
+        /* SECTION 4: WITNESS MATRICES */
         .witness-container {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: 1fr 1fr;
             gap: 30px;
-            z-index: 5;
         }
 
         .witness-card {
-            border-left: 4px solid var(--evidence-red);
-            min-height: 140px;
+            border-left: 3px solid var(--evidence-red);
         }
 
         .witness-card p {
             font-family: 'Special Elite', cursive;
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             color: var(--text-bright);
             line-height: 1.6;
             margin-bottom: 15px;
+            min-height: 55px;
         }
 
         .witness-meta {
@@ -338,7 +331,7 @@
             letter-spacing: 1px;
         }
 
-        /* DIGITAL ARCHIVE PILLS */
+        /* DIGITAL ARCHIVES */
         .archive-list {
             display: flex;
             flex-direction: column;
@@ -346,20 +339,20 @@
         }
 
         .archive-item {
-            background: rgba(255,255,255,0.02);
-            border: 1px solid rgba(255,255,255,0.05);
-            padding: 15px 20px;
+            background: rgba(255,255,255,0.01);
+            border: 1px solid rgba(255,255,255,0.04);
+            padding: 18px 25px;
             border-radius: 4px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: all 0.3s;
+            transition: all 0.4s;
         }
 
         .archive-item.illuminated {
             border-color: var(--evidence-red);
-            background: rgba(192, 57, 43, 0.05);
-            transform: translateX(10px);
+            background: rgba(229, 9, 20, 0.04);
+            transform: translateX(12px);
         }
 
         .archive-year {
@@ -370,7 +363,6 @@
         .archive-status {
             font-family: 'Special Elite', cursive;
             color: var(--evidence-red);
-            font-size: 0.9rem;
         }
 
         /* SECTION 6: TIMELINE */
@@ -380,7 +372,7 @@
             top: 150px;
             bottom: 100px;
             width: 2px;
-            background: rgba(255,255,255,0.05);
+            background: rgba(255,255,255,0.04);
             transform: translateX(-50%);
         }
 
@@ -390,7 +382,6 @@
             width: 100%;
             margin-bottom: 60px;
             position: relative;
-            z-index: 5;
         }
 
         .timeline-node:nth-child(even) {
@@ -399,18 +390,17 @@
 
         .timeline-box {
             width: 45%;
-            transition: all 0.5s ease;
         }
 
         .timeline-dot {
-            width: 16px;
-            height: 16px;
+            width: 12px;
+            height: 12px;
             background: var(--bg-deep);
-            border: 3px solid var(--sambar-gold);
+            border: 2px solid var(--sambar-gold);
             border-radius: 50%;
             position: absolute;
             left: 50%;
-            top: 30px;
+            top: 35px;
             transform: translateX(-50%);
             z-index: 10;
         }
@@ -418,32 +408,31 @@
         .timeline-year {
             font-family: 'Syncopate', sans-serif;
             color: var(--sambar-gold);
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             margin-bottom: 8px;
         }
 
-        /* SECTION 7: ANALYTICAL DASHBOARD */
+        /* SECTION 7: FORENSIC ANALYTICS */
         .dashboard-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 25px;
-            z-index: 5;
         }
 
         .metric-card {
             text-align: center;
-            padding: 35px 20px;
+            padding: 40px 20px;
         }
 
         .metric-val {
-            font-size: 2.8rem;
+            font-size: 2.5rem;
             font-family: 'Syncopate', sans-serif;
             color: var(--text-bright);
             margin-bottom: 10px;
         }
 
         .metric-title {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             text-transform: uppercase;
             letter-spacing: 2px;
             color: var(--sambar-gold);
@@ -451,9 +440,9 @@
         }
 
         .progress-bar-track {
-            height: 6px;
+            height: 4px;
             background: rgba(255,255,255,0.05);
-            border-radius: 3px;
+            border-radius: 2px;
             overflow: hidden;
         }
 
@@ -464,49 +453,95 @@
             transition: width 1.5s cubic-bezier(0.1, 1, 0.1, 1);
         }
 
-        /* SECTION 8: FINAL VERDICT */
+        /* SECTION 8: NEW CINEMATIC VERDICT GATE */
         #verdict {
             text-align: center;
-            background: radial-gradient(circle at center, #1a100f 0%, var(--bg-deep) 70%);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            overflow: hidden;
+        }
+
+        #verdict-reveal-gate-btn {
+            background: transparent;
+            border: 2px solid var(--evidence-red);
+            color: var(--text-bright);
+            font-family: 'Syncopate', sans-serif;
+            padding: 20px 45px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            letter-spacing: 2px;
+            box-shadow: 0 0 20px rgba(229,9,20,0.2);
+            transition: all 0.3s;
+            z-index: 10;
+        }
+
+        #verdict-reveal-gate-btn:hover {
+            background: var(--evidence-red);
+            box-shadow: 0 0 40px var(--evidence-red);
+        }
+
+        #verdict-main-stage {
+            display: none;
+            width: 100%;
+            max-width: 900px;
+            animation: stageFadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes stageFadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
         }
 
         #verdict-stamp {
             font-family: 'Special Elite', cursive;
-            font-size: 4.5rem;
+            font-size: 5rem;
             color: var(--evidence-red);
-            border: 8px double var(--evidence-red);
+            border: 6px double var(--evidence-red);
             padding: 15px 50px;
             display: inline-block;
-            border-radius: 8px;
-            transform: scale(3) rotate(-10deg);
-            opacity: 0;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-radius: 4px;
+            transform: rotate(-8deg);
             margin-bottom: 40px;
+            text-shadow: 0 0 20px rgba(229,9,20,0.4);
+            animation: stampSlam 0.3s cubic-bezier(0.6, -0.28, 0.735, 0.045) forwards;
         }
 
-        #verdict-text-reveal {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 1s ease;
-            max-width: 800px;
+        @keyframes stampSlam {
+            from { transform: scale(3) rotate(-30deg); opacity: 0; }
+            to { transform: scale(1) rotate(-8deg); opacity: 1; }
         }
 
         .verdict-prose {
             font-family: 'Special Elite', cursive;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             line-height: 1.8;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         .verdict-ultimate {
-            font-size: 3rem;
+            font-size: 3.2rem;
             color: var(--sambar-gold);
-            text-shadow: 0 0 25px rgba(243, 156, 18, 0.5);
-            margin-top: 20px;
+            text-shadow: 0 0 35px rgba(243, 156, 18, 0.6);
+            letter-spacing: 4px;
+        }
+
+        #victory-confetti-canvas {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 2;
+            display: none;
+        }
+
+        #golden-spotlight-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, rgba(243, 156, 18, 0.12) 0%, rgba(0,0,0,0) 60%);
+            pointer-events: none;
+            z-index: 1;
+            display: none;
         }
 
         /* SECTION 10: TEAM MATRICES */
@@ -514,14 +549,12 @@
             display: flex;
             justify-content: center;
             gap: 40px;
-            margin-top: 20px;
-            z-index: 5;
         }
 
         .team-card {
             width: 320px;
             text-align: center;
-            transition: transform 0.3s;
+            transition: transform 0.3s, border-color 0.3s;
         }
 
         .team-card:hover {
@@ -530,13 +563,13 @@
         }
 
         .avatar-box {
-            width: 90px;
-            height: 90px;
-            border: 2px solid var(--evidence-red);
+            width: 80px;
+            height: 80px;
+            border: 1px solid var(--evidence-red);
             color: var(--text-bright);
             background: rgba(255,255,255,0.02);
             font-family: 'Syncopate', sans-serif;
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -545,7 +578,7 @@
         }
 
         .team-card h3 {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             color: var(--text-bright);
             margin-bottom: 6px;
         }
@@ -557,36 +590,19 @@
             letter-spacing: 1px;
         }
 
-        /* BACKGROUND FIXED MATRIX DECORATION */
-        .ambient-spotlight {
-            position: absolute;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(243, 156, 18, 0.03) 0%, rgba(0,0,0,0) 70%);
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        /* MOBILE RESPONSIVE ADAPTATIONS */
+        /* RESPONSIVE BREAKPOINTS */
         @media (max-width: 1024px) {
-            .media-showcase-grid, .dossier-grid {
-                grid-template-columns: 1fr;
-            }
-            .media-showcase-grid {
-                justify-items: center;
-            }
-            .dashboard-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .witness-container {
-                grid-template-columns: 1fr;
-            }
+            .media-showcase-grid, .dossier-grid { grid-template-columns: 1fr; }
+            .media-showcase-grid { justify-items: center; }
+            .dashboard-grid { grid-template-columns: repeat(2, 1fr); }
+            .witness-container { grid-template-columns: 1fr; }
             .timeline-track { left: 20px; transform: none; }
             .timeline-node, .timeline-node:nth-child(even) { flex-direction: column; }
             .timeline-box { width: 100%; padding-left: 40px; }
             .timeline-dot { left: 20px; transform: translateX(-50%); }
             .team-flex { flex-direction: column; align-items: center; }
             .hero-content h1 { font-size: 2.8rem; }
+            .verdict-ultimate { font-size: 2rem; }
         }
     </style>
 </head>
@@ -594,14 +610,16 @@
 
     <div id="custom-cursor"></div>
 
+    <!-- LOADING SCREEN -->
     <div id="loading-screen">
         <div class="loader-status">ACCESSING CLASSIFIED FILES...</div>
         <div class="loader-bar-container">
             <div class="loader-bar-fill" id="loader-fill"></div>
         </div>
-        <div class="loader-logs" id="loader-log-text">Initializing parameters...</div>
+        <div class="loader-logs" id="loader-log-text">Initializing database layers...</div>
     </div>
 
+    <!-- SECTION 1: HERO -->
     <section id="hero">
         <canvas id="rain-canvas"></canvas>
         <div class="hero-content">
@@ -611,22 +629,22 @@
         </div>
     </section>
 
+    <!-- SECTION 2: CASE BRIEFING -->
     <section id="case-briefing">
-        <div class="ambient-spotlight" style="top: 10%; left: -10px;"></div>
         <div class="section-title-area">
             <h2>SECTION 2 — CASE BRIEFING</h2>
         </div>
         <div class="dossier-grid">
             <div class="glass-card">
                 <div class="dossier-meta-row"><span>CASE ID</span><span>SI-2026</span></div>
-                <div class="dossier-meta-row"><span>STATUS</span><span style="color:var(--evidence-red)">● ACTIVE</span></div>
-                <div class="dossier-meta-row"><span>LOCATION</span><span>COLLEGE CANTEEN · BLOCK 4</span></div>
+                <div class="dossier-meta-row"><span>STATUS</span><span style="color:var(--evidence-red); font-weight:bold;">● ACTIVE</span></div>
+                <div class="dossier-meta-row"><span>LOCATION</span><span>COLLEGE CANTEEN</span></div>
                 <div class="dossier-meta-row"><span>LEAD INVESTIGATOR</span><span>STUDENT DETECTIVE</span></div>
             </div>
             <div class="glass-card" style="display:flex; flex-direction:column; justify-content:space-between;">
                 <div>
-                    <h3 style="color:var(--text-bright); font-size:1rem; margin-bottom:10px;">OPERATIONAL OBJECTIVE</h3>
-                    <p style="font-size:0.95rem; line-height:1.6;">Determine whether the canteen sambar recipe has remained completely unchanged over multiple consecutive academic years—and uncover the source of its unyielding continuity index.</p>
+                    <h3 style="color:var(--text-bright); font-size:0.9rem; margin-bottom:10px;">INVESTIGATION OBJECTIVE</h3>
+                    <p style="font-size:0.95rem; line-height:1.6;">Determine whether the canteen sambar recipe has remained mathematically unchanged over consecutive academic cycles.</p>
                 </div>
                 <div class="stamp-container">
                     <div class="stamp confidential">CONFIDENTIAL</div>
@@ -637,13 +655,14 @@
         </div>
     </section>
 
+    <!-- SECTION 3: THE DETECTIVE -->
     <section id="detective-room">
         <div class="section-title-area">
             <h2>SECTION 3 — THE DETECTIVE</h2>
         </div>
         <div class="media-showcase-grid">
             <div class="poster-frame" id="detective-poster-container">
-                <img src="assets/poster1.jpg" alt="The Sambar Investigator Poster" onerror="this.src='https://placehold.co/450x650/0b0c10/ff4d4d?text=Poster+1:+The+Sambar+Investigator'">
+                <img src="assets/poster1.jpg" alt="Sambar Investigator Poster" onerror="this.src='https://placehold.co/450x650/0b0c10/ff4d4d?text=Poster+1:+The+Sambar+Investigator'">
                 <div class="audio-control-panel">
                     <button class="audio-trigger-btn" id="btn-track1" onclick="toggleTrack(1)">
                         <span id="state-icon-1">▶</span> Play Detective Recording
@@ -651,36 +670,37 @@
                 </div>
             </div>
             <div class="glass-card" id="detective-profile-card" style="align-self: stretch; display: flex; flex-direction: column; justify-content: center;">
-                <h3 style="color:var(--text-bright); margin-bottom:20px; font-size:1.3rem;">PERSONNEL DOSSIER</h3>
-                <div class="dossier-meta-row"><span>ROLE</span><span>LEAD INVESTIGATOR</span></div>
-                <div class="dossier-meta-row"><span>EXPERIENCE</span><span>4 ACADEMIC YEARS</span></div>
-                <div class="dossier-meta-row"><span>SPECIALIZATION</span><span>CAMPUS MYSTERIES & ANOMALIES</span></div>
-                <div class="dossier-meta-row"><span>CURRENT MISSION</span><span>THE SAMBAR CASE STASIS</span></div>
+                <h3 style="color:var(--text-bright); margin-bottom:20px; font-size:1.1rem;">DETECTIVE PROFILE</h3>
+                <div class="dossier-meta-row"><span>OPERATIVE</span><span>LEAD INVESTIGATOR</span></div>
+                <div class="dossier-meta-row"><span>EXPERIENCE</span><span>4 YEARS</span></div>
+                <div class="dossier-meta-row"><span>SPECIALIZATION</span><span>CAMPUS MYSTERIES</span></div>
+                <div class="dossier-meta-row"><span>CURRENT MISSION</span><span>THE SAMBAR CASE</span></div>
             </div>
         </div>
     </section>
 
+    <!-- SECTION 4: CAMPUS LIFE & WITNESSES -->
     <section id="witness-matrix">
         <div class="section-title-area">
             <h2>SECTION 4 — CAMPUS LIFE & WITNESSES</h2>
         </div>
         <div class="witness-container">
-            <div class="glass-card witness-card"><p class="typewriter" data-text="&ldquo;I joined in first year. The sambar tasted exactly the same.&rdquo;"></p><div class="witness-meta">— Rohan K., 4th Year Student</div></div>
-            <div class="glass-card witness-card"><p class="typewriter" data-text="&ldquo;My seniors warned me about this mystery before I registered.&rdquo;"></p><div class="witness-meta">— Priya M., 3rd Year Student</div></div>
-            <div class="glass-card witness-card"><p class="typewriter" data-text="&ldquo;I think the recipe is older than the infrastructure of the department.&rdquo;"></p><div class="witness-meta">— Anonymous Hosteler</div></div>
-            <div class="glass-card witness-card"><p class="typewriter" data-text="&ldquo;Every single batch has investigated. No one has ever found an answer.&rdquo;"></p><div class="witness-meta">— Meera R., Alumna</div></div>
+            <div class="glass-card witness-card"><p class="typewriter" data-text="&ldquo;I joined in first year. The sambar tasted the same.&rdquo;"></p><div class="witness-meta">— Rohan K., Senior</div></div>
+            <div class="glass-card witness-card"><p class="typewriter" data-text="&ldquo;My seniors warned me about this mystery.&rdquo;"></p><div class="witness-meta">— Priya M., 3rd Year</div></div>
+            <div class="glass-card witness-card"><p class="typewriter" data-text="&ldquo;I think the recipe is older than the department.&rdquo;"></p><div class="witness-meta">— Anonymous Student</div></div>
+            <div class="glass-card witness-card"><p class="typewriter" data-text="&ldquo;Every batch has investigated. No answers.&rdquo;"></p><div class="witness-meta">— Campus Log Entry</div></div>
         </div>
     </section>
 
+    <!-- SECTION 5: THE EVIDENCE ROOM -->
     <section id="evidence-room">
         <canvas id="evidence-canvas"></canvas>
-        <div class="ambient-spotlight" style="bottom: 10%; right: -50px;"></div>
         <div class="section-title-area">
             <h2>SECTION 5 — THE EVIDENCE ROOM</h2>
         </div>
         <div class="media-showcase-grid">
             <div class="poster-frame" id="evidence-poster-container" style="z-index: 5;">
-                <img src="assets/poster2.png" alt="The Evidence Poster" onerror="this.src='https://placehold.co/450x650/0b0c10/ff4d4d?text=Poster+2:+The+Evidence'">
+                <img src="assets/poster2.png" alt="Evidence Poster" onerror="this.src='https://placehold.co/450x650/0b0c10/ff4d4d?text=Poster+2:+The+Evidence'">
                 <div class="audio-control-panel">
                     <button class="audio-trigger-btn" id="btn-track2" onclick="toggleTrack(2)">
                         <span id="state-icon-2">▶</span> Play Investigation Recording
@@ -697,20 +717,22 @@
         </div>
     </section>
 
+    <!-- SECTION 6: INVESTIGATION TIMELINE -->
     <section id="timeline-vault">
         <div class="section-title-area">
             <h2>SECTION 6 — INVESTIGATION TIMELINE</h2>
         </div>
         <div style="position:relative; width:100%;">
             <div class="timeline-track"></div>
-            <div class="timeline-node"><div class="timeline-dot"></div><div class="glass-card timeline-box"><div class="timeline-year">2022</div><p class="typewriter-font">Initial Suspicion: Freshers raise consistency concerns across hostels.</p></div></div>
-            <div class="timeline-node"><div class="timeline-dot"></div><div class="glass-card timeline-box"><div class="timeline-year">2023</div><p class="typewriter-font">Student Interviews: Formulated anonymous questionnaires deployed in labs.</p></div></div>
-            <div class="timeline-node"><div class="timeline-dot"></div><div class="glass-card timeline-box"><div class="timeline-year">2024</div><p class="typewriter-font">Evidence Collection: Liquid samples extracted and macro photographed.</p></div></div>
-            <div class="timeline-node"><div class="timeline-dot"></div><div class="glass-card timeline-box"><div class="timeline-year">2025</div><p class="typewriter-font">Comparative Analysis: Multi-year cross-layer structural taste matching mapping completed.</p></div></div>
-            <div class="timeline-node"><div class="timeline-dot"></div><div class="glass-card timeline-box"><div class="timeline-year">2026</div><p class="typewriter-font">Case Reopened: Assigned to Student Intelligence. Public data portal active.</p></div></div>
+            <div class="timeline-node"><div class="timeline-dot"></div><div class="glass-card timeline-box"><div class="timeline-year">2022</div><p class="typewriter-font">Initial Suspicion</p></div></div>
+            <div class="timeline-node"><div class="timeline-dot"></div><div class="glass-card timeline-box"><div class="timeline-year">2023</div><p class="typewriter-font">Student Interviews</p></div></div>
+            <div class="timeline-node"><div class="timeline-dot"></div><div class="glass-card timeline-box"><div class="timeline-year">2024</div><p class="typewriter-font">Evidence Collection</p></div></div>
+            <div class="timeline-node"><div class="timeline-dot"></div><div class="glass-card timeline-box"><div class="timeline-year">2025</div><p class="typewriter-font">Comparative Analysis</p></div></div>
+            <div class="timeline-node"><div class="timeline-dot"></div><div class="glass-card timeline-box"><div class="timeline-year">2026</div><p class="typewriter-font">Case Reopened</p></div></div>
         </div>
     </section>
 
+    <!-- SECTION 7: FORENSIC ANALYSIS -->
     <section id="analytics-deck">
         <div class="section-title-area">
             <h2>SECTION 7 — FORENSIC ANALYSIS</h2>
@@ -728,7 +750,7 @@
             </div>
             <div class="glass-card metric-card">
                 <div class="metric-val" data-max="100">0%</div>
-                <div class="metric-title">Student Suspicion</div>
+                <div class="metric-title">Student Suspicion Level</div>
                 <div class="progress-bar-track"><div class="progress-bar-fill" data-width="100"></div></div>
             </div>
             <div class="glass-card metric-card" style="display:flex; flex-direction:column; justify-content:center;">
@@ -738,30 +760,48 @@
         </div>
     </section>
 
+    <!-- SECTION 8: FINAL VERDICT (CINEMATIC UPGRADE) -->
     <section id="verdict">
-        <div id="verdict-stamp">CASE CLOSED</div>
-        <div id="verdict-text-reveal">
-            <p class="verdict-prose">After years of rigorous field investigation, thousands of detailed student testimonies, and extensive multi-batch evidence laboratory analysis...</p>
-            <h2 class="verdict-ultimate">THE SAMBAR HAS NOT CHANGED.</h2>
+        <canvas id="victory-confetti-canvas"></canvas>
+        <div id="golden-spotlight-overlay"></div>
+        
+        <div class="section-title-area" id="verdict-header">
+            <h2>SECTION 8 — FINAL VERDICT</h2>
+        </div>
+
+        <!-- REVEAL GATEWAY CONTROLLER -->
+        <button id="verdict-reveal-gate-btn" onclick="executeFinalVerdictReveal()">
+            [ 🔓 AUTHORIZE FINAL REVEAL ]
+        </button>
+
+        <!-- HIDDEN DISPLAY CONTAINER -->
+        <div id="verdict-main-stage">
+            <div id="verdict-stamp">CASE CLOSED</div>
+            <div id="verdict-text-box">
+                <p class="verdict-prose">After years of investigation, thousands of student testimonies, and extensive evidence analysis...</p>
+                <h2 class="verdict-ultimate">THE SAMBAR HAS NOT CHANGED.</h2>
+            </div>
         </div>
     </section>
 
+    <!-- SECTION 9: ABOUT THE PROJECT -->
     <section id="about-manifesto">
         <div class="section-title-area">
             <h2>SECTION 9 — ABOUT THE PROJECT</h2>
         </div>
         <div class="glass-card" style="max-width:900px; line-height:1.8;">
-            <p style="margin-bottom:20px; font-size:1.1rem;">This digital exhibition transforms a shared, deeply relatable campus experience into an immersive noir detective investigation by bridging storytelling with automated engineering tools.</p>
-            <h3 style="color:var(--text-bright); font-size:0.9rem; margin-bottom:12px; letter-spacing:1px;">INTEGRATED TECHNOLOGIES:</h3>
+            <p style="margin-bottom:20px; font-size:1.1rem;">This project combines AI-generated posters, AI-generated music, storytelling, and web design to transform a relatable campus experience into an immersive detective investigation.</p>
+            <h3 style="color:var(--text-bright); font-size:0.8rem; margin-bottom:12px; letter-spacing:1px;">TECHNOLOGIES USED:</h3>
             <ul style="list-style:none; display:flex; flex-wrap:wrap; gap:15px; font-family:monospace; font-size:0.9rem; color:var(--sambar-gold);">
-                <li>▸ GEMINI AI (POSTERS)</li>
-                <li>▸ AI MUSIC GENERATION (LYRIA)</li>
-                <li>▸ LOVABLE AI ENGINE</li>
-                <li>▸ MODERN WEB STANDARDS</li>
+                <li>▸ GEMINI AI</li>
+                <li>▸ AI MUSIC GENERATION</li>
+                <li>▸ LOVABLE AI</li>
+                <li>▸ MODERN WEB TECHNOLOGIES</li>
             </ul>
         </div>
     </section>
 
+    <!-- SECTION 10: TEAM -->
     <section id="bureau-team">
         <div class="section-title-area">
             <h2>SECTION 10 — MEET THE INVESTIGATORS</h2>
@@ -770,25 +810,23 @@
             <div class="glass-card team-card">
                 <div class="avatar-box">MK</div>
                 <h3>Mangayarkarasi</h3>
-                <div class="team-role">Lead Field Cryptographer</div>
+                <div class="team-role">Investigator</div>
             </div>
             <div class="glass-card team-card">
                 <div class="avatar-box">BP</div>
                 <h3>Bagampriyal</h3>
-                <div class="team-role">Head of Forensic Analytics</div>
+                <div class="team-role">Investigator</div>
             </div>
         </div>
     </section>
 
+    <!-- SECTION 11: CONTACT -->
     <section id="contact-terminal">
         <div class="section-title-area">
-            <h2>SECTION 11 — SUBMIT DOSSIER LEADS</h2>
+            <h2>SECTION 11 — CONTACT INFORMATION</h2>
         </div>
         <div class="glass-card" style="max-width:600px; margin: 0 auto; width:100%; text-align:center;">
-            <p class="typewriter-font" style="color:var(--sambar-gold); font-size:1.2rem; margin-bottom:25px;">OFFICE OF CAMPUS INVESTIGATIONS</p>
-            <div style="display:flex; justify-content:space-around; font-size:0.8rem; margin-bottom:30px; text-transform:uppercase; color:#718096;">
-                <span>📂 Case Inquiries</span><span>💬 Feedback</span><span>🔒 Secure Intel</span>
-            </div>
+            <p class="typewriter-font" style="color:var(--sambar-gold); font-size:1.1rem; margin-bottom:25px;">CASE INQUIRIES & FEEDBACK</p>
             <a href="mailto:mangai04v@gmail.com" style="color:var(--text-bright); text-decoration:none; font-family:'Syncopate'; font-size:1.1rem; border-bottom:2px dashed var(--evidence-red); padding-bottom:5px;">
                 mangai04v@gmail.com
             </a>
@@ -796,42 +834,53 @@
     </section>
 
     <script>
-        // 1. LOADING MANAGER SCRIPT
+        // 1. LOADING MANAGER
         const loadingLogs = [
-            "Initializing secure connection node...",
-            "Loading multi-batch evidence database...",
-            "Decrypting witness statement archives...",
-            "Mapping campus network coordinates...",
-            "Opening restricted case files..."
+            "Loading evidence database...",
+            "Scanning witness statements...",
+            "Opening case records..."
         ];
-        
         let progress = 0;
         const loaderFill = document.getElementById('loader-fill');
         const loaderLogText = document.getElementById('loader-log-text');
         
         const loadInterval = setInterval(() => {
-            progress += Math.floor(Math.random() * 8) + 2;
+            progress += Math.floor(Math.random() * 10) + 4;
             if (progress >= 100) {
                 progress = 100;
                 clearInterval(loadInterval);
                 setTimeout(() => {
-                    const loader = document.getElementById('loading-screen');
-                    loader.style.opacity = '0';
-                    loader.style.visibility = 'hidden';
+                    document.getElementById('loading-screen').style.display = 'none';
                     initializeWitnessAnimations();
-                }, 500);
+                }, 400);
             }
             loaderFill.style.width = progress + '%';
-            loaderLogText.innerText = loadingLogs[Math.floor((progress / 100) * loadingLogs.length)] || "Assembling interface modules...";
-        }, 80);
+            loaderLogText.innerText = loadingLogs[Math.floor((progress / 100) * loadingLogs.length)] || "Opening files...";
+        }, 60);
 
-        // 2. UNIFIED AUDIO ENGINE CONTROL
+        // 2. FIXED TRACK AUDIO SYSTEM (ONE-TIME PLAYBACK ENGINE)
         const audioTrack1 = new Audio('assets/track1.mp3');
         const audioTrack2 = new Audio('assets/track2.mp3');
-        audioTrack1.loop = true;
-        audioTrack2.loop = true;
+        
+        // Disable automatic loop constraint to force one-time playback
+        audioTrack1.loop = false;
+        audioTrack2.loop = false;
 
         let activeTrackNum = null;
+
+        // Auto clean-up interface buttons if track finishes naturally
+        audioTrack1.onended = () => resetAudioUI();
+        audioTrack2.onended = () => { resetAudioUI(); clearEvidenceEffects(); };
+
+        function resetAudioUI() {
+            document.getElementById('btn-track1').classList.remove('active-playing');
+            document.getElementById('btn-track2').classList.remove('active-playing');
+            document.getElementById('state-icon-1').innerText = "▶";
+            document.getElementById('state-icon-2').innerText = "▶";
+            document.getElementById('detective-poster-container').style.transform = "none";
+            document.getElementById('detective-profile-card').style.boxShadow = "none";
+            activeTrackNum = null;
+        }
 
         function toggleTrack(trackNum) {
             const btn1 = document.getElementById('btn-track1');
@@ -841,81 +890,141 @@
             const poster1 = document.getElementById('detective-poster-container');
             const profileCard = document.getElementById('detective-profile-card');
 
-            // Pause whatever is playing
-            if (activeTrackNum === 1 && trackNum !== 1 || activeTrackNum === 2 && trackNum !== 2) {
+            if (activeTrackNum !== null && activeTrackNum !== trackNum) {
                 audioTrack1.pause();
                 audioTrack2.pause();
-                btn1.classList.remove('active-playing');
-                btn2.classList.remove('active-playing');
-                icon1.innerText = "▶";
-                icon2.innerText = "▶";
-                poster1.style.transform = "none";
-                profileCard.style.boxShadow = "none";
+                resetAudioUI();
             }
 
             if (activeTrackNum === trackNum) {
-                // If clicking the currently playing track, pause it
-                if (trackNum === 1) {
-                    audioTrack1.pause();
-                    icon1.innerText = "▶";
-                    btn1.classList.remove('active-playing');
-                    poster1.style.transform = "none";
-                    profileCard.style.boxShadow = "none";
-                } else {
-                    audioTrack2.pause();
-                    icon2.innerText = "▶";
-                    btn2.classList.remove('active-playing');
-                    clearEvidenceEffects();
-                }
-                activeTrackNum = null;
+                if (trackNum === 1) { audioTrack1.pause(); } else { audioTrack2.pause(); clearEvidenceEffects(); }
+                resetAudioUI();
             } else {
-                // Play target track
                 if (trackNum === 1) {
-                    audioTrack1.play().catch(e => console.log("Interaction required"));
+                    audioTrack1.play().catch(e => console.log("Interaction lock."));
                     icon1.innerText = "⏸";
                     btn1.classList.add('active-playing');
-                    // Special Effects 1
-                    poster1.style.transform = "scale(1.03) rotate(1deg)";
-                    profileCard.style.boxShadow = "0 0 30px rgba(243, 156, 18, 0.15)";
+                    poster1.style.transform = "scale(1.02)";
+                    profileCard.style.boxShadow = "0 0 30px rgba(243, 156, 18, 0.1)";
                     activeTrackNum = 1;
                 } else {
-                    audioTrack2.play().catch(e => console.log("Interaction required"));
+                    audioTrack2.play().catch(e => console.log("Interaction lock."));
                     icon2.innerText = "⏸";
                     btn2.classList.add('active-playing');
-                    // Special Effects 2
                     triggerEvidenceEffects();
                     activeTrackNum = 2;
                 }
             }
         }
 
-        // 3. CANVAS INTERACTIVE STRINGS SECTION 5
+        // 3. ENHANCED REVEAL VERDICT & PROCEDURAL AUDIO CHIME GENERATOR
+        function executeFinalVerdictReveal() {
+            // Kill any active background music
+            audioTrack1.pause();
+            audioTrack2.pause();
+            resetAudioUI();
+
+            // Hide the activation gateway interface button
+            document.getElementById('verdict-reveal-gate-btn').style.display = 'none';
+            document.getElementById('verdict-header').style.display = 'none';
+
+            // Unveil the main documentary stage container elements
+            document.getElementById('verdict-main-stage').style.display = 'block';
+            document.getElementById('golden-spotlight-overlay').style.display = 'block';
+            
+            // Fire synthesized celebratory audio log log signals (Victory Sound Effect)
+            playVictoryChime();
+
+            // Fire confetti burst loops
+            initConfetti();
+        }
+
+        function playVictoryChime() {
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            if(!ctx) return;
+            
+            const notes = [261.63, 329.63, 392.00, 523.25, 659.25, 783.99, 1046.50];
+            notes.forEach((freq, index) => {
+                setTimeout(() => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(freq, ctx.currentTime);
+                    gain.gain.setValueAtTime(0.12, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.4);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.4);
+                }, index * 80);
+            });
+        }
+
+        // 4. ANIMATED CONFETTI DRAW SYSTEM
+        const confCanvas = document.getElementById('victory-confetti-canvas');
+        const confCtx = confCanvas.getContext('2d');
+        let particles = [];
+
+        function initConfetti() {
+            confCanvas.style.display = "block";
+            confCanvas.width = confCanvas.parentElement.clientWidth;
+            confCanvas.height = confCanvas.parentElement.clientHeight;
+            for(let i=0; i<120; i++) {
+                particles.push({
+                    x: Math.random() * confCanvas.width,
+                    y: Math.random() * -50,
+                    r: Math.random() * 6 + 4,
+                    d: Math.random() * confCanvas.height,
+                    color: ["#f39c12", "#e67e22", "#e50914", "#ffffff", "#10b981"][Math.floor(Math.random()*5)],
+                    tilt: Math.random() * 10 - 5,
+                    v: Math.random() * 3 + 2
+                });
+            }
+            loopConfetti();
+        }
+
+        function loopConfetti() {
+            confCtx.clearRect(0,0,confCanvas.width,confCanvas.height);
+            particles.forEach((p) => {
+                confCtx.beginPath();
+                confCtx.lineWidth = p.r;
+                confCtx.strokeStyle = p.color;
+                confCtx.moveTo(p.x + p.tilt + p.r/2, p.y);
+                confCtx.lineTo(p.x + p.tilt, p.y + p.tilt + p.r/2);
+                confCtx.stroke();
+                
+                p.y += p.v;
+                p.x += Math.sin(p.y / 20);
+                if(p.y > confCanvas.height) {
+                    p.y = -20;
+                    p.x = Math.random() * confCanvas.width;
+                }
+            });
+            requestAnimationFrame(loopConfetti);
+        }
+
+        // 5. CANVAS EVIDENCE LINES DETACHMENT MATRIX
         const evCanvas = document.getElementById('evidence-canvas');
         const evCtx = evCanvas.getContext('2d');
-        
         function resizeCanvas() {
             evCanvas.width = evCanvas.parentElement.clientWidth;
             evCanvas.height = evCanvas.parentElement.clientHeight;
         }
         window.addEventListener('resize', resizeCanvas);
-        window.addEventListener('load', resizeCanvas);
 
         function triggerEvidenceEffects() {
             resizeCanvas();
-            const pills = document.querySelectorAll('.archive-item');
-            pills.forEach((pill, idx) => {
+            document.querySelectorAll('.archive-item').forEach((pill, idx) => {
                 setTimeout(() => {
                     pill.classList.add('illuminated');
                     drawEvidenceStrings();
-                }, idx * 250);
+                }, idx * 150);
             });
         }
-
         function clearEvidenceEffects() {
             document.querySelectorAll('.archive-item').forEach(p => p.classList.remove('illuminated'));
             evCtx.clearRect(0, 0, evCanvas.width, evCanvas.height);
         }
-
         function drawEvidenceStrings() {
             evCtx.clearRect(0, 0, evCanvas.width, evCanvas.height);
             const poster = document.getElementById('evidence-poster-container');
@@ -924,165 +1033,104 @@
 
             const pRect = poster.getBoundingClientRect();
             const cRect = evCanvas.getBoundingClientRect();
-
             const startX = (pRect.left + pRect.width / 2) - cRect.left;
             const startY = (pRect.top + pRect.height / 2) - cRect.top;
 
-            evCtx.strokeStyle = 'rgba(192, 57, 43, 0.8)';
-            evCtx.lineWidth = 2;
-            evCtx.shadowBlur = 8;
-            evCtx.shadowColor = '#c0392b';
-
+            evCtx.strokeStyle = 'rgba(229, 9, 20, 0.7)';
+            evCtx.lineWidth = 1.5;
             items.forEach(item => {
                 const iRect = item.getBoundingClientRect();
                 const endX = iRect.left - cRect.left;
                 const endY = (iRect.top + iRect.height / 2) - cRect.top;
-
                 evCtx.beginPath();
                 evCtx.moveTo(startX, startY);
-                // Slight bend to simulate hanging threads
-                evCtx.bezierCurveTo(startX, startY + 50, endX - 50, endY, endX, endY);
+                evCtx.bezierCurveTo(startX, startY + 40, endX - 40, endY, endX, endY);
                 evCtx.stroke();
             });
         }
 
-        // 4. ANIMATION LOGIC FOR METRICS & FINAL VERDICT VIA INTERSECTION OBSERVER
-        const obsOptions = { threshold: 0.25 };
+        // 6. METRIC PROGRESS SYSTEM TRACKER
         const dashboardObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if(entry.isIntersecting) {
-                    // Fire charts width fills
                     document.querySelectorAll('.progress-bar-fill').forEach(f => {
                         f.style.width = f.getAttribute('data-width') + '%';
                     });
-                    // Count values values up
                     document.querySelectorAll('.metric-val').forEach(v => {
                         const target = parseFloat(v.getAttribute('data-max'));
                         let count = 0;
-                        const increment = target / 40;
+                        const increment = target / 30;
                         const counter = setInterval(() => {
                             count += increment;
                             if(count >= target) {
-                                v.innerText = target + (target > 5 ? "%" : "%");
+                                v.innerText = target + "%";
                                 clearInterval(counter);
                             } else {
                                 v.innerText = count.toFixed(1) + "%";
                             }
-                        }, 25);
+                        }, 30);
                     });
                 }
             });
-        }, obsOptions);
+        }, { threshold: 0.25 });
         dashboardObserver.observe(document.getElementById('analytics-deck'));
 
-        const verdictObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if(entry.isIntersecting) {
-                    const stamp = document.getElementById('verdict-stamp');
-                    const text = document.getElementById('verdict-text-reveal');
-                    
-                    stamp.style.opacity = '1';
-                    stamp.style.transform = 'scale(1) rotate(-8deg)';
-                    
-                    setTimeout(() => {
-                        text.style.opacity = '1';
-                        text.style.transform = 'none';
-                    }, 600);
-                }
-            });
-        }, obsOptions);
-        verdictObserver.observe(document.getElementById('verdict'));
-
-        // 5. TYPEWRITER EFFECT ENGINE FOR WITNESS CARDS
+        // 7. TYPEWRITER INTAKE
         function initializeWitnessAnimations() {
-            const elements = document.querySelectorAll('.typewriter');
-            elements.forEach(el => {
+            document.querySelectorAll('.typewriter').forEach(el => {
                 const text = el.getAttribute('data-text');
                 let idx = 0;
                 function type() {
                     if(idx < text.length) {
                         el.innerHTML += text.charAt(idx);
                         idx++;
-                        setTimeout(type, 30);
+                        setTimeout(type, 25);
                     }
                 }
-                // Simple view check trigger
                 const witnessObserver = new IntersectionObserver((entries) => {
                     entries.forEach(e => {
-                        if(e.isIntersecting && el.innerHTML === "") {
-                            type();
-                        }
+                        if(e.isIntersecting && el.innerHTML === "") { type(); }
                     });
                 }, { threshold: 0.5 });
                 witnessObserver.observe(el.parentElement);
             });
         }
 
-        // 6. DETECTIVE INTERACTIVE CURSOR HINTS
+        // 8. INTERACTIVE DETECTIVE CURSOR ACTIONS
         const cursor = document.getElementById('custom-cursor');
         document.addEventListener('mousemove', (e) => {
             cursor.style.left = e.clientX + 'px';
             cursor.style.top = e.clientY + 'px';
         });
         document.querySelectorAll('button, a, .archive-item').forEach(elem => {
-            elem.addEventListener('mouseenter', () => {
-                cursor.style.width = '40px';
-                cursor.style.height = '40px';
-                cursor.style.backgroundColor = 'rgba(243, 156, 18, 0.1)';
-            });
-            elem.addEventListener('mouseleave', () => {
-                cursor.style.width = '20px';
-                cursor.style.height = '20px';
-                cursor.style.backgroundColor = 'transparent';
-            });
+            elem.addEventListener('mouseenter', () => { cursor.style.width = '35px'; cursor.style.height = '35px'; cursor.style.backgroundColor = 'rgba(229, 9, 20, 0.15)'; });
+            elem.addEventListener('mouseleave', () => { cursor.style.width = '20px'; cursor.style.height = '20px'; cursor.style.backgroundColor = 'transparent'; });
         });
 
-        // 7. CINEMATIC HERO RAIN PROCESSOR ENGINE
+        // 9. AMBIENT BACKGROUND RAIN ENGINE
         const rainCanvas = document.getElementById('rain-canvas');
         const rainCtx = rainCanvas.getContext('2d');
         let drops = [];
-
         function initRain() {
             rainCanvas.width = window.innerWidth;
             rainCanvas.height = window.innerHeight;
-            for(let i = 0; i < 75; i++) {
-                drops.push({
-                    x: Math.random() * rainCanvas.width,
-                    y: Math.random() * rainCanvas.height,
-                    v: Math.random() * 5 + 4,
-                    l: Math.random() * 20 + 10
-                });
+            for(let i = 0; i < 60; i++) {
+                drops.push({ x: Math.random() * rainCanvas.width, y: Math.random() * rainCanvas.height, v: Math.random() * 4 + 4, l: Math.random() * 15 + 10 });
             }
         }
         function loopRain() {
             rainCtx.clearRect(0,0,rainCanvas.width,rainCanvas.height);
-            rainCtx.strokeStyle = 'rgba(174,194,224,0.15)';
+            rainCtx.strokeStyle = 'rgba(255,255,255,0.06)';
             rainCtx.lineWidth = 1;
-            for(let i=0; i<drops.length; i++) {
-                let d = drops[i];
-                rainCtx.beginPath();
-                rainCtx.moveTo(d.x, d.y);
-                rainCtx.lineTo(d.x + 1, d.y + d.l);
-                rainCtx.stroke();
-                d.y += d.v;
-                if(d.y > rainCanvas.height) {
-                    d.y = -d.l;
-                    d.x = Math.random() * rainCanvas.width;
-                }
-            }
+            drops.forEach(d => {
+                rainCtx.beginPath(); rainCtx.moveTo(d.x, d.y); rainCtx.lineTo(d.x, d.y + d.l); rainCtx.stroke();
+                d.y += d.v; if(d.y > rainCanvas.height) { d.y = -d.l; d.x = Math.random() * rainCanvas.width; }
+            });
             requestAnimationFrame(loopRain);
         }
-        window.addEventListener('resize', () => {
-            rainCanvas.width = window.innerWidth;
-            rainCanvas.height = window.innerHeight;
-        });
-        initRain();
-        loopRain();
+        initRain(); loopRain();
 
-        // SCROLL CONTROLLER
-        function scrollToCase() {
-            document.getElementById('case-briefing').scrollIntoView({ behavior: 'smooth' });
-        }
+        function scrollToCase() { document.getElementById('case-briefing').scrollIntoView({ behavior: 'smooth' }); }
     </script>
 </body>
 </html>
